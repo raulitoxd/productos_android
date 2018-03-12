@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/relative_layout_container_item_data_producto"
+    >
+
+    <TextView
+        android:id="@+id/text_view_codProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="text_view_codProducto"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/text_view_nombProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/text_view_codProducto"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:paddingHorizontal="5dp"
+        android:paddingLeft="5dp"
+        android:text="text_view_nombProducto"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_nombProducto"
+        android:padding="5dp"
+        android:text="Cantidad:" />
+
+    <TextView
+        android:id="@+id/text_view_cantidadProducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_nombProducto"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:paddingHorizontal="5dp"
+        android:text="cantidad" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_toEndOf="@+id/text_view_codProducto"
+        android:layout_toRightOf="@+id/text_view_codProducto"
+        android:padding="5dp"
+        android:text="Descripción:" />
+
+    <TextView
+        android:id="@+id/text_view_descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_cantidadProducto"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:padding="5dp"
+        android:text="descripcion del producto" />
+
+
+</RelativeLayout>
