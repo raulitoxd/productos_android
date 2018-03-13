@@ -1,5 +1,6 @@
 package android.raul.caja.productoscrud
 
+import android.raul.caja.productoscrud.views.list.ListProductosActivity
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 
@@ -20,5 +21,13 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("android.raul.caja.productoscrud", appContext.packageName)
+    }
+
+    @Test
+    fun whenGetProductsFromRest(){
+        val appContext = InstrumentationRegistry.getTargetContext()
+
+        val productos = ListProductosActivity.LoadProductosAsyncTask().execute(appContext).get()
+        assert(productos.isNotEmpty())
     }
 }
