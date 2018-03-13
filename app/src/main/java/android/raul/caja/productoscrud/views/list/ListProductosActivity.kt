@@ -86,7 +86,7 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
             deleteItem.width = 170
             menu.addMenuItem(deleteItem)
         }
-        recycler_view_data_producto_activity_listProductos.setMenuCreator(creator);
+        recycler_view_data_producto_activity_listProductos.setMenuCreator(creator)
         recycler_view_data_producto_activity_listProductos.setOnMenuItemClickListener(
                 object : SwipeMenuListView.OnMenuItemClickListener {
                     override fun onMenuItemClick(position: Int, menu: SwipeMenu, index: Int): Boolean {
