@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_list_productos.*
 
 class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
 
-    private var listProductosActivityPresenter: ListProductosActivityPresenter? = null
+    var listProductosActivityPresenter: ListProductosActivityPresenter? = null
 
     fun initPresenter() {
         listProductosActivityPresenter = ListProductosActivityPresenter()
@@ -54,7 +54,7 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
         }
 
     }
-
+//Comunicandome con ProductoEditActivity seteando en Intent
     override fun clickEditar(producto: Producto) {
         startActivity(Intent(this, ProductoEditActivity::class.java)
                 .putExtra("producto", producto))
@@ -119,6 +119,9 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
 
     override fun onResume() {
         doLoadData()
+        if(listProductosActivityPresenter?.listaProductos!!.isEmpty()){
+            onResume()
+        }
         super.onResume()
     }
 
@@ -133,18 +136,19 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
         override fun doInBackground(vararg params: Context?): List<Producto> {
             var restResponse: RestResponse = RestResponse("", "", ArrayList<Producto>())
             val get = Fuel.get("http://api.myjson.com/bins/12d94h")
-
+            var exito: Boolean = false
             do {
                 try {
                     var responseObject = get.responseObject(RestResponse.Deserializer())
                     restResponse = responseObject.third.get()
+                    exito = true
 
                 } catch (fuelError: FuelError) {
                     fuelError.printStackTrace()
                 } finally {
                     println(String.format("Intentando consumir rest por %d vez", ++reIntentos))
                 }
-            } while (reIntentos < 3)
+            } while (reIntentos < 3 && !exito)
 
             context = params[0] as Context
             var dbHelper = DBHelper(context)
@@ -159,8 +163,7 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
         override fun onPostExecute(result: List<Producto>?) {
             super.onPostExecute(result)
             println("onPostExecute")
-            println(result);
-
+            println(result)
         }
     }
 
