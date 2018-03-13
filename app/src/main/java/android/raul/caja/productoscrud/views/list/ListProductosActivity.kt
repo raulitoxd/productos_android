@@ -48,13 +48,14 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
     override fun clickEliminar(producto: Producto) {
         Log.d("Eliminando producto ", producto.NombreProd)
         val result = listProductosActivityPresenter?.eliminarProducto(producto)
-        if(result ==true){
+        if (result == true) {
             doLoadData()
             eliminarProducto()
         }
 
     }
-//Comunicandome con ProductoEditActivity seteando en Intent
+
+    //Comunicandome con ProductoEditActivity seteando en Intent
     override fun clickEditar(producto: Producto) {
         startActivity(Intent(this, ProductoEditActivity::class.java)
                 .putExtra("producto", producto))
@@ -119,7 +120,7 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
 
     override fun onResume() {
         doLoadData()
-        if(listProductosActivityPresenter?.listaProductos!!.isEmpty()){
+        if (listProductosActivityPresenter?.listaProductos!!.isEmpty()) {
             onResume()
         }
         super.onResume()
@@ -134,7 +135,16 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
         private lateinit var context: Context
 
         override fun doInBackground(vararg params: Context?): List<Producto> {
+
+            context = params[0] as Context
+            val sharedPreferences = context.getSharedPreferences("productos_preferences", 0)
+            var dbHelper = DBHelper(context)
             var restResponse: RestResponse = RestResponse("", "", ArrayList<Producto>())
+            val CALL_REST = "CALL_REST"
+            if (sharedPreferences.contains(CALL_REST)) {
+                return dbHelper.getAllData()
+            }
+
             val get = Fuel.get("http://api.myjson.com/bins/12d94h")
             var exito: Boolean = false
             do {
@@ -150,13 +160,13 @@ class ListProductosActivity : AppCompatActivity(), ListProductosActivityView {
                 }
             } while (reIntentos < 3 && !exito)
 
-            context = params[0] as Context
-            var dbHelper = DBHelper(context)
-
             restResponse.listaprod.all { producto ->
                 dbHelper.insertData(producto)
             }
-
+            with(sharedPreferences.edit()) {
+                putInt(CALL_REST, 1)
+                commit()
+            }
             return restResponse.listaprod;
         }
 
